@@ -51,7 +51,7 @@ unsigned char LeerMemoria(u16 posicion){
 	{
 		hival=i2c_buffer[0];
 		lowval=i2c_buffer[1];
-		valor=hival*0b11111111 + lowval;
+		valor=hival;
 		if(hival==0xff){
 		if(lowval==0xff){
 		fin=1;
