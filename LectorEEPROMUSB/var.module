@@ -1,0 +1,6 @@
+' Gambas module file
+PUBLIC recibido AS String
+PUBLIC temperatura AS Float
+PUBLIC cuenta AS Integer
+PUBLIC cadena AS NEW String[]
+PUBLIC directorio AS String

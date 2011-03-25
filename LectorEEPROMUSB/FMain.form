@@ -1,0 +1,42 @@
+# Gambas Form File 2.0
+
+{ Form Form
+  MoveScaled(0,0,25,27)
+  Text = ("")
+  { ProgressBar1 ProgressBar
+    MoveScaled(2,22,21,3)
+  }
+  { SerialPortX #SerialPort
+    #X = 91
+    #Y = 140
+    FlowControl = SerialPort.None
+    PortName = "/dev/ttyACM0"
+  }
+  { BotonConvert ToolButton
+    MoveScaled(10,1,5,5)
+    ToolTip = ("Graficar")
+    Text = ("")
+    Picture = Picture["office-chart-line-stacked.png"]
+  }
+  { TextAreaValor TextArea
+    MoveScaled(2,7,21,13)
+    Text = ("")
+    ReadOnly = True
+  }
+  { BotonConect ToolButton
+    MoveScaled(2,1,5,5)
+    ToolTip = ("Comenzar/Detener")
+    Text = ("")
+    Picture = Picture["media-playback-start.png"]
+  }
+  { BotonExport ToolButton
+    MoveScaled(18,1,5,5)
+    ToolTip = ("Copiar al portapapeles")
+    Text = ("")
+    Picture = Picture["document-export.png"]
+  }
+  { PictureBox1 PictureBox
+    MoveScaled(-18,27,5,5)
+    Picture = Picture["office-chart-line-stacked.png"]
+  }
+}

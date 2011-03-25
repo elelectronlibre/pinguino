@@ -1,0 +1,75 @@
+' Gambas class file
+
+PUBLIC SUB _new()
+
+END
+
+PUBLIC SUB Form_Open()
+ FMain.Center() ' Abre la aplicación en el centro de la pantalla
+ var.cuenta = 0
+ var.cadena.Resize(0)
+END
+
+PUBLIC SUB BotonConect_Click()
+  ' Al oprimir el botón se abre el puerto y se habilitan los controles
+  'DIM iconX AS Picture
+  IF SerialPortX.Status = Net.Active THEN
+   CLOSE SerialPortX
+   PRINT SerialPortX.PortName & "Cerrado"
+   'BotonConect.Picture.Load("/media-playback-start.png")
+
+  ' Si se oprime otra vez el botón se cierra el puerto y se
+  '  deshabilitan los controles
+  ELSE
+   TRY SerialPortX.Open()
+   IF ERROR THEN  
+    Message.Error("No se pudo abrir el puerto " & SerialPortX.PortName)
+    RETURN 
+   ENDIF 
+   PRINT SerialPortX.PortName & " abierto"
+   'BotonConect.Picture.Load("/media-playback-stop.png")
+   PRINT #SerialPortX, "c";
+  ENDIF 
+END
+
+PUBLIC SUB SerialPortX_Read()
+DIM Recibido AS String
+   READ #SerialPortX, Var.Recibido, Lof(SerialPortX)
+   IF (var.recibido = "fin") THEN 
+   Message.Info("Descarga Completa", "OK")
+   ProgressBar1.Value = 1
+   GOTO saltar
+   ENDIF 
+   var.cuenta += 1
+   ProgressBar1.Value = var.cuenta / 8000
+   TextAreaValor.Text = TextAreaValor.Text & var.recibido & "\n"
+   PRINT #SerialPortX, "c";
+   ' TextBoxValor.Text = Var.Recibido
+   ' Var.Temperatura = Var.Recibido * 500 / 1024
+   ' TextBoxTemp.Text = Format$(Var.Temperatura, "-##.##")
+   saltar:
+END
+
+PUBLIC SUB Form_Close()
+  IF SerialPortX.Status = Net.Active THEN CLOSE SerialPortX
+END
+
+PUBLIC SUB BotonExport_Click()
+
+  Clipboard.copy(TextAreaValor.Text)
+  Message.Info("Datos copiados en el portapapeles", "Ok")
+
+END
+
+PUBLIC SUB BotonConvert_Click()
+DIM direccion AS String
+DIM hFile AS File
+var.directorio = Application.Path
+direccion = Application.Path & "/Datos.txt"
+
+hFile = OPEN direccion FOR WRITE CREATE 
+PRINT #hFile, TextAreaValor.Text
+
+  SHELL "python " & Application.Path & "/Graficar.py"
+
+END
